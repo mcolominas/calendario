@@ -19,16 +19,16 @@
 	<body>
 		<h1>Calendario</h1>
 		<?php
-			//obtener cuantos dias tiene el mes actual
+			//Obtener cuantos dias tiene el mes actual
 			$mes = date("m");
 			$any = date("Y");
 			$fechaPincipioDelMes = "01-$mes-$any";
 			$cantidadDeDiasDelMes = date( "t", strtotime( $fechaPincipioDelMes )); 
 
-			//obtener el dia en que estamos
+			//Obtener el dia en que estamos
 			$diaActual = date("j");
 
-			//obtener en que dia de la semana ha iniciado el mes (0-6)
+			//Obtener en que dia de la semana ha iniciado el mes (0-6)
 			$diaInicioSemana = date("N", time() - $diaActual*24*60*60);
 			
 			$diaEscrito = 1;
