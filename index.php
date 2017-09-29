@@ -23,16 +23,18 @@
 			$mes = date("m");
 			$any = date("Y");
 			$fechaPincipioDelMes = "01-$mes-$any";
-			$cantidadDeDiasDelMes = date( "t", strtotime( $fechaPincipioDelMes )); 
+			$cantidadDeDiasDelMes = date( "t", strtotime( $fechaPincipioDelMes ));
 
 			//Obtener el dia en que estamos
 			$diaActual = date("j");
 
-			//Obtener en que dia de la semana ha iniciado el mes (0-6)
-			$diaInicioSemana = date("N", time() - $diaActual*24*60*60);
+			//Obtener en que dia de la semana ha iniciado el mes (0-6, 0 = lunes) 
+			$diaInicioSemana = date("N", strtotime($fechaPincipioDelMes))-1; //metodo 1
+			//$diaInicioSemana = date("N", time() - $diaActual*24*60*60);	//metodo 2
 			
 			$diaEscrito = 1;
-			$maxFilas = 1; $maxColumnas = 7;
+			$maxFilas = 1; //Se autoincrementa sola para adaptarse a los dias del mes
+			$maxColumnas = 7;
 
 			echo "<table style='margin: 30px auto;'>";
 			echo "<tr>";
@@ -47,7 +49,7 @@
 			for($fila = 1; $fila <= $maxFilas; $fila++){
 				echo "<tr>";
 				for($columna = 1; $columna <= $maxColumnas; $columna++){
-					if($diaActual == $diaEscrito)
+					if($diaActual == $diaEscrito && $mes == date("m") && $any == date("Y"))
 						echo "<td style='background-color: blue; color: white;'>";
 					else
 						echo "<td>";
