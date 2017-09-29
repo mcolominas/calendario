@@ -11,6 +11,7 @@
 			}
 			td, th{
 				padding: 5px 10px;
+				text-align: center;
 			}
 			h1 {text-align: center;}
 		</style>
@@ -19,9 +20,32 @@
 	<body>
 		<h1>Calendario</h1>
 		<?php
-			//Obtener cuantos dias tiene el mes actual
-			$mes = date("m");
-			$any = date("Y");
+			$mes;
+			$any;
+
+			//Calcular que fecha mostrar
+			if($_SERVER['REQUEST_METHOD'] == 'POST'){
+				if($_POST['pasar']=="next"){
+					$mes = $_POST['mes'] + 1;
+					$any = $_POST['any'];
+					if($mes > 12){
+						$mes -= 12;
+						$any ++;
+					}
+				}else if($_POST['pasar']=="prev"){
+					$mes = $_POST['mes'] - 1;
+					$any = $_POST['any'];
+					if($mes < 1){
+						$mes += 12;
+						$any --;
+					}
+				}
+			} else {
+				$mes = date("m");
+				$any = date("Y");
+			}
+
+			//Obtener cuantos dias tiene el mes elejido
 			$fechaPincipioDelMes = "01-$mes-$any";
 			$cantidadDeDiasDelMes = date( "t", strtotime( $fechaPincipioDelMes ));
 
@@ -29,12 +53,18 @@
 			$diaActual = date("j");
 
 			//Obtener en que dia de la semana ha iniciado el mes (0-6, 0 = lunes) 
-			$diaInicioSemana = date("N", strtotime($fechaPincipioDelMes))-1; //metodo 1
-			//$diaInicioSemana = date("N", time() - $diaActual*24*60*60);	//metodo 2
+			$diaInicioSemana = date("N", strtotime($fechaPincipioDelMes))-1;
 			
 			$diaEscrito = 1;
 			$maxFilas = 1; //Se autoincrementa sola para adaptarse a los dias del mes
 			$maxColumnas = 7;
+
+			echo '<form method="post" action="" style="text-align: center;">
+				<input type="submit" name="pasar" value="prev">
+				<input type="text" name="mes" value="'.$mes.'" style="width: 40px;">
+				<input type="text" name="any" value="'.$any.'" style="width: 40px;">
+				<input type="submit" name="pasar" value="next">
+			</form>';
 
 			echo "<table style='margin: 30px auto;'>";
 			echo "<tr>";
@@ -65,5 +95,6 @@
 			}
 			echo "</table>";
 		?>
+		
 	</body>
 </html>
